@@ -122,3 +122,25 @@
 
     window.Identicon = Identicon;
 })();
+
+String.prototype.hashCode = function() {
+    var hash = 0, i, chr, len;
+    if (this.length == 0) return hash;
+    for (i = 0, len = this.length; i < len; i++) {
+        chr   = this.charCodeAt(i);
+        hash  = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
+	}
+    return hash;
+};
+
+Math.sRandom = function(max, min) {
+    max = max || 1;
+    min = min || 0;
+    Math.seed = Math.abs(Math.seed) || Math.random();
+	
+    Math.seed = (Math.seed * 9301 + 49297) % 233280;
+    var rnd = Math.seed / 233280;
+	
+    return min + rnd * (max - min);
+};
