@@ -19,8 +19,10 @@ colors:= An array of colours (rgba/rgb/#)
 
 Sample Usage:
 
-`new Identicon(125, $('#username').val().hashCode(), 'circles')`
+`new Identicon(125, "text".hashCode(), 'circles')`
 
 `new Identicon(100, $('#username').val().hashCode(), 'any', 1, '#555555', ['rgba(0,0,0,0.5)'])`
+
+`new Identicon(100, document.getElementById("test").value.hashCode(), 'any', 1, '#555555', ['rgba(0,0,0,0.5)'])`
 
 
