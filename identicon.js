@@ -139,8 +139,8 @@ Math.sRandom = function(max, min) {
     min = min || 0;
     Math.seed = Math.abs(Math.seed) || Math.random();
 	
-    Math.seed = (Math.seed * 9301 + 49297) % 233280;
-    var rnd = Math.seed / 233280;
+    var t = (Math.seed * 9301 + 49297) % 233280;
+    var rnd = t / 233280;
 	
     return min + rnd * (max - min);
 };
