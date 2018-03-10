@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Identicon.js</title>
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+	<script src="identicon.js"></script>
+	<style>
+		* {
+			clear: both;
+			font-family: 'Open Sans', sans-serif;
+			color: #505745;
+		}
+
+		body {
+			background-color: #efeff1;
+		}
+
+		hr {
+			width: 100%;
+			border-color: #364760;
+			border-width: 0.5px;
+		}
+
+		pre, textarea {
+			font-family: monospace;
+			margin: 2px;
+		    background: #505745;
+		    color: #efeff1;
+		    border-radius: 4px;
+		    padding: 5px;
+		}
+
+		textarea {
+			width: 100%;
+			min-height: 175px;
+		}
+
+		h4 {
+			margin-bottom: 10px;
+		}
+
+		ul {
+			margin-top: 0;
+			padding-left: 15px;
+			list-style-type: none;
+		}
+
+		div.simpleContainer {
+			text-align: center;
+		}
+
+		img {
+			border-radius: 50%;
+			overflow: hidden;
+			margin: 10px;
+		}
+
+		pre.inline {
+			display: inline-block;
+		}
+
+		div.container {
+			display: flex;
+			flex-direction: column;
+			min-width: 300px;
+			max-width: 50vw;
+			margin: 15px auto;
+		}
+
+		div.customContainer {
+			display: flex;
+		}
+
+		div.half {
+			width: 50%;
+			display: inline-flex;
+			justify-content: center;
+		}
+
+		#error {
+		    color: #CC5649;
+    		font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="simpleContainer">
+			<h2>Using indenticon.js</h2>
+			<img id="simple">
+			<div><pre class="inline">new Identicon({size: 128, seed: Math.random().toString()})</pre></div>
+			
+		</div>
+
+		<hr>
+
+		<h4>Options</h4>
+		<ul>
+			<li><pre class="inline">size</pre> - Integer, pixels, width & height of image</li>
+			<li><pre class="inline">seed</pre> - String, usually a username or other unique meaning</li>
+			<li><pre class="inline">shape</pre> - String, <pre class="inline">any</pre> <pre class="inline">squares</pre> <pre class="inline">diamonds</pre> <pre class="inline">circles</pre></li>
+			<li><pre class="inline">amount</pre> - Integer, number of shapes to draw</li>
+			<li><pre class="inline">bgColor</pre> - String, background color, <pre class="inline">#ABCDEF</pre> <pre class="inline">rgba(0,0,0,0.5)</pre></li>
+			<li><pre class="inline">colors</pre> - Array, shape colors, same syntax as previous</li>
+		</ul>
+		<hr>
+		<h4>Try it Out</h4>
+		<div class="customContainer">
+			<div class="half"><textarea id="yourCode" spellcheck="false"></textarea></div>
+			<div class="half"><img id="custom"></div>
+		</div>
+		<span id="error"></span>
+	</div>
+	<script>
+		//simple
+		var simple = new Identicon({size: 128, seed: Math.random().toString()});
+		document.getElementById('simple').src = simple.toString();
+
+		//custom
+		var yourCode = document.getElementById('yourCode');
+		var custom = document.getElementById('custom');
+		yourCode.value = JSON.stringify({"seed": "this should be a username","size": 128,"shape":"circles","amount":1,"bgColor": "#364760","colors": ["rgba(255,204,51,0.3)"]}, null, 3);
+
+		function regenerateCustom() {
+			var old = custom.src;
+			try {
+				var options = JSON.parse(yourCode.value);
+				console.log(options);
+				var customIdenticon = new Identicon(options);
+				custom.src = customIdenticon.toString();
+				custom.width = options.size;
+				custom.height = options.size;
+				document.getElementById('error').innerHTML = '';
+			}
+			catch(e) {
+				document.getElementById('error').innerHTML = e.toString();
+				custom.src = old;
+			}
+		}
+
+		yourCode.addEventListener('change', regenerateCustom);
+		yourCode.addEventListener('paste', regenerateCustom);
+		yourCode.addEventListener('keyup', regenerateCustom);
+		yourCode.addEventListener('blur', regenerateCustom);
+		regenerateCustom();
+	</script>
+</body>
+</html>
+
